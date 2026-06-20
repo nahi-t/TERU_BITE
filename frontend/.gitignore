@@ -1,0 +1,33 @@
+# ==========================================
+# 1. Generic OS / IDE Bloat
+# ==========================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+
+
+
+# ==========================================
+# 3. Frontend / Flutter Rules (If applicable)
+# ==========================================
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/build/
+**/+*
+**/*.mks
+**/node_modules/
+
+# ==========================================
+# 4. Local Database files
+# ==========================================
+**/*.db
+**/*.sqlite
