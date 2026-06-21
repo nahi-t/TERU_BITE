@@ -1,4 +1,5 @@
-import { Search, MapPin, Clock, Flame, Sparkles, Shield } from 'lucide-react';
+import React from 'react';
+import { Search, MapPin, Clock, Sparkles, Shield } from 'lucide-react';
 import logoImage from '../asset/logo.png';
 
 interface HeaderProps {
@@ -31,11 +32,12 @@ export default function Header({
       {/* ========================================== */}
       {/* BEAST MODE: FULL LOGO AS BACKGROUND TEXTURE */}
       {/* ========================================== */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden opacity-15">
+      {/* Opacity boosts from 15% to 40% on mobile sizes for maximum visibility */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden opacity-40 sm:opacity-15 transition-opacity duration-300">
         <img 
           src={logoImage} 
           alt="" 
-          className="w-full h-full object-cover object-center filter saturate-50 brightness-75 scale-105"
+          className="w-full h-full object-cover object-center filter saturate-100 sm:saturate-50 brightness-90 sm:brightness-75 scale-105"
           style={{ mixBlendMode: 'multiply' }} 
         />
       </div>
@@ -75,8 +77,8 @@ export default function Header({
       {/* Main navigation rows */}
       <div className="max-w-7xl mx-auto px-4 py-4 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
         
-        {/* SHARP MINI FOREGROUND LOGO MARK WITH MIX-BLEND-MULTIPLY */}
-        <div className="flex items-center justify-center h-16 sm:h-20 shrink-0 select-none cursor-pointer group bg-stone-950/40 p-1.5 px-3 rounded-xl border border-stone-800/40 backdrop-blur-xs">
+        {/* SHARP MINI FOREGROUND LOGO MARK - HIDDEN ON MOBILE */}
+        <div className="hidden sm:flex items-center justify-center h-16 sm:h-20 shrink-0 select-none cursor-pointer group bg-stone-950/40 p-1.5 px-3 rounded-xl border border-stone-800/40 backdrop-blur-xs">
           <img 
             src={logoImage} 
             alt="TIRU BITE Logo" 
