@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-// Added 'Search' to the imports below
-import { LogOut, Plus, CheckCircle, AlertTriangle, RefreshCw, Home, Search } from 'lucide-react';
+// Added 'User' to the imports below
+import { LogOut, Plus, CheckCircle, AlertTriangle, RefreshCw, Home, Search, User } from 'lucide-react';
+// Added 'updateUser' to the imports below
 import { 
   getCategories, createCategory, updateCategory, deleteCategory,
-  getMenuItems, createMenuItem, updateMenuItem, deleteMenuItem 
+  getMenuItems, createMenuItem, updateMenuItem, deleteMenuItem, updateUser
 } from '../../services/api';
 import { MenuItem, MenuCategory } from '../../types';
 import CategoryTable from './CategoryTable';
 import MenuItemsTable from './MenuItemsTable';
 import CategoryModal from './CategoryModal';
 import MenuItemModal from './MenuItemModal';
+// Added ProfileModal import below
+import ProfileModal from './ProfileModal';
 import logoImage from '../../asset/logo.png';
 
 interface AdminDashboardProps {
@@ -45,6 +48,10 @@ export default function AdminDashboard({ userId, email, onBack, onRefreshData }:
   const [showItemModal, setShowItemModal] = useState<boolean>(false);
   const [isItemEditMode, setIsItemEditMode] = useState<boolean>(false);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
+
+  // --- ADDED: Profile Modal State ---
+  const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
+  const [profileLoading, setProfileLoading] = useState<boolean>(false);
 
   // Re-fetch data instantly when user turns pages, adjusts limits, or types a search query
   useEffect(() => {
@@ -102,6 +109,24 @@ export default function AdminDashboard({ userId, email, onBack, onRefreshData }:
     setLoading(false);
   }
 };
+
+  // --- ADDED: PROFILE EVENT HANDLER ---
+  const handleSaveProfile = async (data: { currentPassword?: string; email?: string; password?: string }) => {
+    setProfileLoading(true);
+    try {
+      await updateUser(userId, data);
+      if (data.email) {
+        localStorage.setItem('wow_admin_email', data.email);
+      }
+      showToast('Profile updated successfully!', 'success');
+      setShowProfileModal(false);
+      onRefreshData();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to update profile.', 'error');
+    } finally {
+      setProfileLoading(false);
+    }
+  };
 
   // --- CATEGORY EVENT HANDLERS ---
   const handleOpenAddCategory = () => {
@@ -258,6 +283,15 @@ export default function AdminDashboard({ userId, email, onBack, onRefreshData }:
               <Home size={12} />
               <span>Back to Home</span>
             </a>
+
+            {/* --- ADDED: Profile Button --- */}
+            <button
+              onClick={() => setShowProfileModal(true)}
+              className="px-4 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-850 text-stone-300 border border-stone-800 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5"
+            >
+              <User size={12} />
+              <span>Profile</span>
+            </button>
             
             <button
               onClick={onBack}
@@ -371,6 +405,15 @@ export default function AdminDashboard({ userId, email, onBack, onRefreshData }:
         loading={loading}
         onClose={() => setShowItemModal(false)}
         onSave={handleSaveItem}
+      />
+
+      {/* --- ADDED: Profile Modal Component --- */}
+      <ProfileModal
+        isOpen={showProfileModal}
+        email={email}
+        loading={profileLoading}
+        onClose={() => setShowProfileModal(false)}
+        onSave={handleSaveProfile}
       />
     </div>
   );
