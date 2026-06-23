@@ -9,6 +9,7 @@ import BottomNavigation from './components/BottomNavigation'; // <-- Imported he
 import { getCategories, getMenuItems } from './services/api';
 import { MenuItem, MenuCategory, DietaryType } from './types';
 import { Flame, Star, Sparkles, Heart, X, RefreshCw, Smile } from 'lucide-react';
+import logo from './asset/logo.png';
 
 export default function App() {
   const [categories, setCategories] = useState<MenuCategory[]>([]);
@@ -113,11 +114,34 @@ export default function App() {
     return counts;
   };
 
-  if (loading) {
+if (loading) {
     return (
-      <div className="min-h-screen bg-stone-900 text-stone-100 flex flex-col justify-center items-center">
-        <RefreshCw className="animate-spin text-red-600 mb-4" size={32} />
-        <p className="text-xs font-mono uppercase tracking-widest">Loading from Database...</p>
+      <div className="relative min-h-screen bg-stone-900 text-stone-100 flex flex-col justify-center items-center overflow-hidden">
+        
+        {/* Visible Fullscreen Logo Background */}
+        <img 
+          src={logo} 
+          alt="Background" 
+          className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-screen pointer-events-none"
+        />
+
+        {/* Central Loading Content */}
+        <div className="z-10 flex flex-col items-center text-center">
+          
+          {/* Circular, Highly Visible Spinning Logo */}
+          <div className="w-20 h-20 bg-white rounded-full p-1 shadow-2xl border-2 border-red-600 mb-4 animate-spin [animation-duration:4s]">
+            <img 
+              src={logo} 
+              alt="Loading..." 
+              className="w-full h-full object-cover rounded-full" 
+            />
+          </div>
+          
+          <p className="text-xs font-mono uppercase tracking-widest text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-bold">
+            Loading TIRU BITE
+          </p>
+        </div>
+
       </div>
     );
   }
