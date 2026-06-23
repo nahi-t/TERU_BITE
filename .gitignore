@@ -12,7 +12,7 @@ Thumbs.db
 *.swp
 
 
-
+**/node_modules/
 
 # ==========================================
 # 3. Frontend / Flutter Rules (If applicable)
