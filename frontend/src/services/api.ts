@@ -1,5 +1,5 @@
-const API_BASE_URL = 'http://localhost:5000';
-// const API_BASE_URL='https://teru-bite.onrender.com';
+// const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL='https://teru-bite-1.onrender.com';
 
 export function getToken(): string | null {
   return localStorage.getItem('wow_burger_token');
